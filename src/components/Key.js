@@ -4,31 +4,6 @@ import React, {useEffect} from 'react'
 
 export default function Key(props) {
 
-
-  const handleKeyPress = e => {
-    let audio = document.getElementById(e.key)
-    let sound = new Audio(audio.src)
-    audio.parentElement.style.backgroundColor = 'red'
-    sound.play()
-    setTimeout(function(){
-      audio.parentElement.style.backgroundColor = 'white'
-    }, 100)
-    
-  }
-
-
-  useEffect(() => {
-    document.addEventListener('keydown', handleKeyPress)
-    
-    return () =>{
-      document.removeEventListener('keydown')
-    }
-  },[])
-
-  // function handleKeyPress(e){
-  //   console.log(e)
-  // }
-
   function changeBackgroundOnMouseDown(e){
     let audio = e.target.querySelector('audio').src;
     let sound = new Audio(audio)
@@ -39,6 +14,17 @@ export default function Key(props) {
   function changeColorToWhiteMouseUp(e){
     e.target.style.backgroundColor = "white"
   }
+
+  useEffect(() => {
+    let pad = document.getElementById(props.letter)
+    pad.parentElement.addEventListener('mousedown', changeBackgroundOnMouseDown)
+    pad.parentElement.addEventListener('mouseup', changeColorToWhiteMouseUp)
+    return () =>{
+      pad.removeEventListener(changeBackgroundOnMouseDown)
+      pad.removeEventListener(changeColorToWhiteMouseUp)
+    }
+  },[props.letter])
+
 
   return (
     <div className="drum-pad" onMouseDown={changeBackgroundOnMouseDown} onMouseUp={changeColorToWhiteMouseUp}>
