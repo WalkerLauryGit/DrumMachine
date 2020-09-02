@@ -5,6 +5,7 @@ import Controls from './Controls'
 const Base = () => {
 
   const handleKeyPress = e => {
+    try{
     let audio = document.getElementById(e.key)
     
     let sound = new Audio(audio.src)
@@ -12,7 +13,9 @@ const Base = () => {
     sound.play()
     setTimeout(function(){
       audio.parentElement.style.backgroundColor = 'white'
-    }, 100)
+    }, 100)}catch{
+      return
+    }
   }
   
 
